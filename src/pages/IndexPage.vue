@@ -7,16 +7,15 @@ export default {
 
   created() {
   },
-  methods: {
-
-  }
-}
+};
 </script>
 
 <template>
 
   <main>
-    <router-view></router-view>
+    <h1 class="title">
+      INDEX PAGE
+    </h1>
   </main>
 
 </template>

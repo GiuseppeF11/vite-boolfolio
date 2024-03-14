@@ -19,7 +19,8 @@ export default {
 </template>
 
 <style scoped>
-h1 {
-  background-color: rgb(210, 124, 32);
+footer {
+  background-color: cornflowerblue;
+  min-height: 200px;
 }
 </style>
