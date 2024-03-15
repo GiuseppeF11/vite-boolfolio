@@ -20,7 +20,8 @@ export default {
 
 <style scoped>
 footer {
-  background-color: cornflowerblue;
-  min-height: 200px;
+  background-image: linear-gradient(90deg, rgb(68, 144, 190),rgb(251, 254, 241));
+  padding: 10px 0;
+  min-height: 10vh;
 }
 </style>

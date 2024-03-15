@@ -4,6 +4,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      project: null
     }
   },
 
@@ -15,8 +16,14 @@ export default {
       axios
           .get('http://127.0.0.1:8000/api/projects/' + this.$route.params.slug) // Come parametro della rotta avremo i singoli slug
           .then(response => {
-            console.log(response.data.results);
-            this.project = response.data.results;
+            console.log(response.data);
+
+            if (response.data.success) {
+              this.project = response.data.results;
+            }
+            else {
+              this.$router.push({name:'not-found'});
+            }
           })
     },
   }
@@ -25,9 +32,9 @@ export default {
 
 <template>
 
-  <main>
-    <h3 class="title">
-      {{ project.title}}
+  <main v-if="project != null">
+    <h3 class="page-title">
+      {{project.title}}
     </h3>
     <div class="container">
       <div class="row">
@@ -36,12 +43,19 @@ export default {
             <div v-if="project.full_cover_img != null">
                 <img :src="project.full_cover_img" :alt="project.title"> <!-- Grazie ad appends sul Model Project nel backend accediamo al percorso dell'immagine -->
             </div>
-            <p>
+            <p v-if="project.description">
               {{ project.description}}
+            </p>
+            <p>
             </p>
           </div>
       </div>
       </div>
+    </div>
+    <div class="d-flex justify-content-center ">
+      <router-link :to="{name: 'projects.index'}" class="btn page-btn">
+        <p class="m-0 fw-bold text-light ">Torna ai progetti</p>
+      </router-link>
     </div>
   </main>
 
@@ -49,12 +63,14 @@ export default {
 
 <style scoped>
 main {
-  background-color: rgb(94, 118, 89);
+  background-image: linear-gradient(90deg, rgb(68, 144, 190),rgb(251, 254, 241));
   padding: 20px 0;
+  border-bottom: 2px solid grey;
+  min-height: 80vh;
 }
 
-.title {
-  background-color: rgb(57, 255, 156);
+.page-title {
+  background-color: #D3E6E6;
   box-shadow: 0px 0px 10px rgb(0, 0, 0);
   text-align: center;
   margin: 0 auto;
@@ -70,8 +86,9 @@ main {
   to { transform: scale(1.03); }
 }
 
+
 .card {
-  background-color: rgb(101, 184, 0);
+  background-color: #CDE2E4;
   box-shadow: 5px 5px 10px black;
   border-radius: 10px;
   margin: 10px;
@@ -79,8 +96,32 @@ main {
   transition: ease 0.5s;
   
     &:hover {
-      background-color: rgb(183, 255, 0);
+      background-color: #4993BF;
       scale: 1.03;
     }
+
+    .project-title {
+      min-height: 80px;
+    }
+
+    .detail {
+      min-height: 60px;
+    }
+}
+
+.page-btn {
+  background-color: #4892BF;
+  font-weight: 700;
+  color: white;
+  &:hover {
+    background-color: #7bbae0;
+    
+  }
+}
+
+img {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 </style>
